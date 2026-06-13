@@ -24,6 +24,18 @@
     --font-body: 'Inter', sans-serif;
   }
 
+  body.light-theme {
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent-primary: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-glow: 0 0 20px rgba(79, 70, 229, 0.3);
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -50,10 +62,16 @@
     background: rgba(99, 102, 241, 0.2);
     top: -100px; left: -100px;
   }
+  body.light-theme::before {
+    background: rgba(79, 70, 229, 0.1);
+  }
   body::after {
     width: 300px; height: 300px;
     background: rgba(236, 72, 153, 0.15);
     bottom: -50px; right: -50px;
+  }
+  body.light-theme::after {
+    background: rgba(236, 72, 153, 0.1);
   }
 
   .wrap {
@@ -72,6 +90,27 @@
     margin-bottom: 3rem;
     text-align: center;
     position: relative;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .theme-toggle:hover {
+    background: var(--accent-primary);
+    color: #fff;
+    box-shadow: var(--accent-glow);
   }
 
   header h1 {
@@ -426,6 +465,7 @@
 <body>
 <div class="wrap">
   <header>
+    <button type="button" class="theme-toggle" id="themeToggleBtn">Toggle Light Mode</button>
     <h1>Resume Tailor</h1>
     <p>Upload your resume, paste a job description, and get an ATS-ready resume and cover letter tailored to the role.</p>
   </header>
@@ -463,12 +503,22 @@
   </form>
 
   <div id="results">
-    <div class="match-card">
-      <div class="match-score"><span id="scoreNum">--</span><span class="pct">/100</span></div>
-      <div class="match-details">
-        <h3>Match analysis</h3>
-        <div id="matchedKeywords" class="keyword-list"></div>
-        <div id="missingKeywords" class="keyword-list" style="margin-top:8px;"></div>
+    <div class="grid" style="margin-bottom: 2rem;">
+      <div class="match-card" style="margin-bottom: 0;">
+        <div class="match-score"><span id="origScoreNum">--</span><span class="pct">/100</span></div>
+        <div class="match-details">
+          <h3>Original ATS Score</h3>
+          <div id="origMatchedKeywords" class="keyword-list"></div>
+          <div id="origMissingKeywords" class="keyword-list" style="margin-top:8px;"></div>
+        </div>
+      </div>
+      <div class="match-card" style="margin-bottom: 0;">
+        <div class="match-score"><span id="tailorScoreNum">--</span><span class="pct">/100</span></div>
+        <div class="match-details">
+          <h3>Tailored ATS Score</h3>
+          <div id="tailorMatchedKeywords" class="keyword-list"></div>
+          <div id="tailorMissingKeywords" class="keyword-list" style="margin-top:8px;"></div>
+        </div>
       </div>
     </div>
 
